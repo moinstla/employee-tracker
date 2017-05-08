@@ -1,17 +1,46 @@
-# require "capybara/rspec"
-# require "./app"
-#
-# Capybara.app = Sinatra::Application
-# set(:show_exceptions, false)
+require "capybara/rspec"
+require "./app"
+require "spec_helper"
 
-# example integration test
+Capybara.app = Sinatra::Application
+set(:show_exceptions, false)
 
-# describe("the phrase parser path", {:type => :feature}) do
-#   it("processes the user input and returns correct message if its a palindrome") do
-#     visit("/")
-#     fill_in("phrase1", :with => "madam")
-#     fill_in("phrase2", :with => "anagram")
-#     click_button("what am i?")
-#     expect(page).to have_content("'madam' is a palindrome")
-#   end
-# end
+
+describe("the home path", {:type => :feature}) do
+
+  it("shows the list of all current Divisions on the page") do
+    visit("/")
+    test_division1 = Division.create(:name => "Information Technology")
+    test_division2 = Division.create(:name => "Human Resources")
+    visit("/")
+    expect(page).to(have_content("Human Resources"))
+  end
+
+  it("shows the list of all current Employees on the page") do
+    visit("/")
+    # test_division1 = Division.create(:name => "Information Technology")
+    test_employee1 = Employee.create(:name => "Mike")
+    # test_employee1 = Employee.create(:name => "Mike", :division_id => test_division1.id)
+    # test_employee2 = Employee.create(:name => "Margret", :division_id => test_division1.id)
+    visit("/")
+    expect(page).to(have_content("Mike"))
+  end
+end
+
+describe("the add division path", {:type => :feature}) do
+  it("allows the user to add a division") do
+    visit("/")
+    fill_in("division_name", :with => "Human Resources")
+    click_button("Add Division")
+    expect(page).to have_content("Human Resources")
+  end
+end
+
+describe("the add employee path", {:type => :feature}) do
+  it("allows the user to add an employee") do
+    visit("/")
+    fill_in("employee_name", :with => "Mike")
+    click_button("Add Employee")
+    expect(page).to have_content("Mike")
+  end
+end
