@@ -1,33 +1,42 @@
 <h1>Employee Tracker</h1>
 
+<hr>
+
 <h3>List of Divisions</h3>
 <% @divisions.each do |division| %>
   <ul>
-    <li> <%= division.name %> </li>
+    <li><a href="/division_info/<%= division.id %>"><%= division.name %></a></li>
   </ul>
 <% end %>
 
 <h3>Add a new Division:</h3>
 
-<form action="/division" method="post">
+<form action="/division_info" method="post">
   <label for="division_name">Division name</label>
   <input id="division_name" name="division_name" type="text">
 
   <button type="submit">Add Division</button>
 </form>
 
+<hr>
 
 <h3>List of Employees</h3>
 
 <% @employees.each do |employee| %>
   <ul>
-    <li> <%= employee.name %> </li>
+    <li><a href="/employee_info/<%= employee.id %>"><%= employee.name %></a></li>
   </ul>
 <% end %>
 
 <h3>Add a new Employee:</h3>
 
-<form action="/employee" method="post">
+<form action="/employee_new" method="post">
+  <label for="division_id">Select Division</label>
+  <select id="division_id" name='division_id' type='text'>
+    <% @divisions.each do |division| %>
+      <option value="<%= division.id %>"> <%= division.name %> </option>
+    <% end %>
+  </select>
   <label for="employee_name">Employee name</label>
   <input id="employee_name" name="employee_name" type="text">
 

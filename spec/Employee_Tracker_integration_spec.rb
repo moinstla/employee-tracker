@@ -44,3 +44,23 @@ describe("the add employee path", {:type => :feature}) do
     expect(page).to have_content("Mike")
   end
 end
+
+describe("the employee info path", {:type => :feature}) do
+  it("allows the user to navigate to an info page for a single employee") do
+    visit("/")
+    fill_in("employee_name", :with => "Mike")
+    click_button("Add Employee")
+    click_link("Mike")
+    expect(page).to have_content("Mike")
+  end
+end
+
+describe("the divisions info path", {:type => :feature}) do
+  it("allows the user to navigate to an info page for a single division") do
+    visit("/")
+    fill_in("division_name", :with => "IT Dept")
+    click_button("Add Division")
+    click_link("IT Dept")
+    expect(page).to have_content("IT Dept")
+  end
+end
